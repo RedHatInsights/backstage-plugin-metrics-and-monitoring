@@ -35,8 +35,6 @@ Also in app-config.yaml add redhatinsights.backstage-plugin-metrics-and-monitori
 ```yaml
 dynamicPlugins:
   frontend:
-    dynamicPlugins:
-  frontend:
     redhatinsights.backstage-plugin-metrics-and-monitoring:
       mountPoints:
         - mountPoint: entity.page.monitoring/cards
