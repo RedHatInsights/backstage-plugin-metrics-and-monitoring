@@ -1,10 +1,10 @@
-Metrics and Monitoring plugin
+# Metrics and Monitoring plugin
 
 This is a development mono-repo for the Metrics and Monitoring plugin. This mono-repo was created using @backstage/create-app to provide a backend and frontend for the plugin to integrate with.
 
 You can find the plugin code in plugins/metrics-and-monitoring
 
-Cards
+## Cards
 
 - Grafana: directs you to your dashboard or warns you where you can add the required annotation
 
@@ -12,10 +12,10 @@ Cards
 
 - Catchpoint: Catchpoint tests are used to monitor app availability and directly changes satuspage. If you don't have one, a warning sign will be shown, telling you how to get there 
 
-Setup 
+## Setup 
 
 In app-config.yaml first add the proxy:
-
+```yaml
 proxy:
   endpoints:
     '/prometheus/stage':
@@ -28,9 +28,11 @@ proxy:
       secure: true
       headers:
         Authorization: "Bearer ${PROMETHEUS_TOKEN}"
+```
 
 Also in app-config.yaml add redhatinsights.backstage-plugin-metrics-and-monitoring and the card component configs into the dynamic plugins section.
 
+```yaml
 dynamicPlugins:
   frontend:
     dynamicPlugins:
@@ -45,9 +47,9 @@ dynamicPlugins:
                 lg: "span 4"
                 md: "span 6"
                 xs: "span 12"
+```
 
-
-Development
+## Development
 
 To start the app, run:
 
