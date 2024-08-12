@@ -52,10 +52,10 @@ dynamicPlugins:
 ## Development
 
 To start the app, run:
-
+```sh
 yarn install
 yarn dev
-
+```
 Before you do, you'll likely want to have catalog entries to see the plugin working on. Check out AppStage for that.
 Build the Dynamic Plugin
 
