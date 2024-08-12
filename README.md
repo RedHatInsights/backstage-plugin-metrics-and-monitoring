@@ -6,11 +6,11 @@ You can find the plugin code in plugins/metrics-and-monitoring
 
 ## Cards
 
-- Grafana: directs you to your dashboard or warns you where you can add the required annotation
+- Grafana: directs you to your dashboard with the selected env prometheus datasource
 
 - Prometheus: links to the currently selected environments prometheus' alert page
 
-- Catchpoint: Catchpoint tests are used to monitor app availability and directly changes satuspage. If you don't have one, a warning sign will be shown, telling you how to get there 
+- Catchpoint: Catchpoint tests are used to monitor app availability and directly changes satuspage. The test itself should be set up by the app team
 
 ## Setup 
 

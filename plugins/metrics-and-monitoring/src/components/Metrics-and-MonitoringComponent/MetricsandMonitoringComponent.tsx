@@ -12,7 +12,6 @@ import {
   Page,
   Content,
   Link,
-  WarningPanel,
 } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
 
@@ -100,13 +99,7 @@ export function MetricsandMonitoringComponent() {
 
   const GrafanaGridItem = () => {
     if (!grafanaUrl) {
-      return (
-        <WarningPanel title="Grafana Dashboard URL missing">
-          Would you like your grafana dashboard link here? Add the
-          metrics-and-monitoring/grafana-dashboard-url: &lt;url&gt; label to
-          your app.yml in app-interface
-        </WarningPanel>
-      );
+      return;
     }
     return (
       <InfoCard title="Grafana">
@@ -125,26 +118,7 @@ export function MetricsandMonitoringComponent() {
 
   const CatchpointItem = () => {
     if (!catchpointUrl) {
-      return (
-        <WarningPanel title="Catchpoint test missing">
-          <Typography variant="body1">
-            Would you like your Catchpoint test link to show up here? Add the
-            metrics-and-monitoring/catchpoint-test-id: &lt;id&gt; label to your
-            app.yml in app-interface.
-            <br />
-            You can find it at{' '}
-            <Link
-              to="https://portal.catchpoint.com/ui/Symphony/ControlCenter/Tests/Folder/43294"
-              target="_blank"
-            >
-              https://portal.catchpoint.com/ui/Symphony/ControlCenter/Tests/Folder/43294
-            </Link>
-            <br />
-            (after you log in with RedHat SSO and not checking the "remember me"
-            option).
-          </Typography>
-        </WarningPanel>
-      );
+      return;
     }
     return (
       <InfoCard title="Catchpoint test">
