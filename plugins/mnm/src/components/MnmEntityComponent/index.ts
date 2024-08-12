@@ -1,1 +1,0 @@
-export { MnmEntityComponent } from "./MnmEntityComponent";

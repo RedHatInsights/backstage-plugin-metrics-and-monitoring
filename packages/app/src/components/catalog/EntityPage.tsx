@@ -50,7 +50,7 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
-import { EntityMnmEntityContent } from '@internal/backstage-plugin-mnm';
+import { MetricsandMonitoringContent } from '@redhatinsights/backstage-plugin-metrics-and-monitoring';
 
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
@@ -224,7 +224,7 @@ const defaultEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
     <EntityLayout.Route path="/mnm" title="Metrics&Monitoring">
-    <EntityMnmEntityContent />
+    <MetricsandMonitoringContent />
 </EntityLayout.Route>
 
   </EntityLayout>

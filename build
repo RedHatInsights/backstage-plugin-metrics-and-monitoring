@@ -1,0 +1,9 @@
+#!/bin/bash
+
+yarn workspace @redhatinsights/backstage-plugin-metrics-and-monitoring export-dynamic
+cd plugins/metrics-and-monitoring/dist-dynamic
+rm *.tgz
+npm pack
+cd ../../../
+mv plugins/metrics-and-monitoring/dist-dynamic/*.tgz .
+shasum -a 256 *.tgz | awk '{print $1}' | xxd -r -p | base64

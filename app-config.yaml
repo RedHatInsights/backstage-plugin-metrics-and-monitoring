@@ -45,9 +45,6 @@ integrations:
 
 proxy:
   endpoints:
-    '/mnmentity':
-      credentials: dangerously-allow-unauthenticated
-      target: https://httpbin.org/anything
     '/prometheus/stage':
       target: https://prometheus.crcs02ue1.devshift.net
       secure: true

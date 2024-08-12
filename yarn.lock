@@ -10278,7 +10278,7 @@ apg-lite@^1.0.3:
     "@backstage/plugin-techdocs-react" "^1.2.6"
     "@backstage/plugin-user-settings" "^0.8.9"
     "@backstage/theme" "^0.5.6"
-    "@internal/backstage-plugin-mnm" "^0.1.0"
+    "@redhatinsights/backstage-plugin-metrics-and-monitoring" "^0.1.0"
     "@material-ui/core" "^4.12.2"
     "@material-ui/icons" "^4.9.1"
     history "^5.0.0"

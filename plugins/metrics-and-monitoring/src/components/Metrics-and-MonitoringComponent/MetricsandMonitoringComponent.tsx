@@ -15,41 +15,33 @@ import {
   WarningPanel,
 } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { useApi, configApiRef } from '@backstage/core-plugin-api';
-
-// type MnmEntityResponse = Record<string, any>;
 
 const clusterMap = {
-  // crc-eph is only used for testing purposes
-  'crc-eph': {
-    url: `https://prometheus.ephemeral.devshift.net`,
-    name: 'ephemeral',
-  },
   crcs02ue1: {
     url: `https://prometheus.crcs02ue1.devshift.net`,
     name: 'stage',
+    datasource: 'PDD8BE47D10408F45',
   },
   crcp01ue1: {
     url: `https://prometheus.crcp01ue1.devshift.net`,
     name: 'prod',
+    datasource: 'PC1EAC84DCBBF0697',
   },
 };
 
-export function MnmEntityComponent() {
+export function MetricsandMonitoringComponent() {
   const { entity } = useEntity();
-  const config = useApi(configApiRef);
+  const grafanaUrl =
+    entity.metadata.annotations?.[
+      'metrics-and-monitoring/grafana-dashboard-url'
+    ];
+  const catchpointUrl =
+    entity.metadata.annotations?.['metrics-and-monitoring/catchpoint-test-id'];
   const [currentEnvironment, setCurrentEnvironment] = useState<string>('');
-  // const [response, setResponse] = useState<MnmEntityResponse>({});
-  const backendUrl = config.getString('backend.baseUrl');
-  const grafanaUrl = entity.metadata.annotations?.['mnm/grafana-dashboard-url'];
-  const catchpointUrl = entity.metadata.annotations?.['mnm/catchpoint-test-id'];
-
   const [currentEnvironmentUrl, setCurrentEnvironmentUrl] =
     useState<string>('');
-
-  useEffect(() => {
-    fetchMnmEntity();
-  }, []);
+  const [currentEnvironmentDatasource, setCurrentEnvironmentDatasource] =
+    useState<string>('');
 
   const getClusterUrl = (cluster: string) => {
     if (clusterMap[cluster as keyof typeof clusterMap]) {
@@ -65,16 +57,11 @@ export function MnmEntityComponent() {
     return cluster;
   };
 
-  // Function to fetch the hello entity data from the backend proxy
-  const fetchMnmEntity = () => {
-    // Notice we are constructing the URL with the backend URL we grabbed from the config
-    fetch(
-      `${backendUrl}/api/proxy/prometheus/${currentEnvironment}/api/v1/rules?type=alert`,
-      {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+  const getClusterDatasource = (cluster: string) => {
+    if (clusterMap[cluster as keyof typeof clusterMap]) {
+      return clusterMap[cluster as keyof typeof clusterMap].datasource;
+    }
+    return cluster;
   };
 
   const ClusterSelect = () => {
@@ -86,6 +73,7 @@ export function MnmEntityComponent() {
           id="cluster-select"
           value={currentEnvironment}
           onChange={e => {
+            setCurrentEnvironmentDatasource(e.target.value === 'stage' ? getClusterDatasource('crcs02ue1') : getClusterDatasource('crcp01ue1'),);
             setCurrentEnvironment(e.target.value as string);
             setCurrentEnvironmentUrl(
               e.target.value === 'stage'
@@ -104,8 +92,10 @@ export function MnmEntityComponent() {
   useEffect(() => {
     const currentClusterName = getClusterName('crcs02ue1');
     const currentClusterUrl = getClusterUrl('crcs02ue1');
+    const currentClusterDatasource = getClusterDatasource('crcs02ue1');
     setCurrentEnvironment(currentClusterName);
     setCurrentEnvironmentUrl(currentClusterUrl);
+    setCurrentEnvironmentDatasource(currentClusterDatasource);
   }, []);
 
   const GrafanaGridItem = () => {
@@ -113,15 +103,18 @@ export function MnmEntityComponent() {
       return (
         <WarningPanel title="Grafana Dashboard URL missing">
           Would you like your grafana dashboard link here? Add the
-          mnm/grafana-dashboard-url: &lt;url&gt; label to your app.yml in
-          app-interface
+          metrics-and-monitoring/grafana-dashboard-url: &lt;url&gt; label to
+          your app.yml in app-interface
         </WarningPanel>
       );
     }
     return (
       <InfoCard title="Grafana">
         <Typography variant="body1">
-          <Link target="_blank" to={`${grafanaUrl}`}>
+          <Link
+            target="_blank"
+            to={`${grafanaUrl}&var-datasource=${currentEnvironmentDatasource}`}
+          >
             {' '}
             Grafana dashboard
           </Link>
@@ -136,8 +129,8 @@ export function MnmEntityComponent() {
         <WarningPanel title="Catchpoint test missing">
           <Typography variant="body1">
             Would you like your Catchpoint test link to show up here? Add the
-            mnm/catchpoint-test-id: &lt;id&gt; label to your app.yml in
-            app-interface.
+            metrics-and-monitoring/catchpoint-test-id: &lt;id&gt; label to your
+            app.yml in app-interface.
             <br />
             You can find it at{' '}
             <Link
@@ -173,13 +166,13 @@ export function MnmEntityComponent() {
       <Content>
         <Grid container direction="row">
           <Grid item xs={11}>
-            MnM
+            Metrics and Monitoring
           </Grid>
           <Grid item xs={1}>
             <ClusterSelect />
           </Grid>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} direction="column">
           <Grid item>
             <GrafanaGridItem />
           </Grid>
