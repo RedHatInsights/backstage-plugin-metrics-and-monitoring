@@ -50,6 +50,8 @@ import {
   RELATION_PART_OF,
   RELATION_PROVIDES_API,
 } from '@backstage/catalog-model';
+import { EntityMnmEntityContent } from '@internal/backstage-plugin-mnm';
+
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
@@ -221,6 +223,10 @@ const defaultEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
+    <EntityLayout.Route path="/mnm" title="Metrics&Monitoring">
+    <EntityMnmEntityContent />
+</EntityLayout.Route>
+
   </EntityLayout>
 );
 

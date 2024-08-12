@@ -14,6 +14,7 @@ coverage
 
 # Dependencies
 node_modules/
+catalog/
 
 # Yarn 3 files
 .pnp.*
@@ -23,6 +24,7 @@ node_modules/
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+*.tgz
 
 # Node version directives
 .nvmrc
@@ -34,6 +36,7 @@ node_modules/
 # Build output
 dist
 dist-types
+dist-dynamic
 
 # Temporary change files created by Vim
 *.swp
