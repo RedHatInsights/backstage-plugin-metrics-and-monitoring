@@ -44,7 +44,7 @@ dynamicPlugins:
           config:
             layout:
               gridColumnEnd:
-                lg: "span 4"
+                lg: "span 12"
                 md: "span 6"
                 xs: "span 12"
 ```
