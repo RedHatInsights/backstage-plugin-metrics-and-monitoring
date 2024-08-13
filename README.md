@@ -22,12 +22,12 @@ proxy:
       target: https://prometheus.crcs02ue1.devshift.net
       secure: true
       headers:
-        Authorization: "Bearer ${PROMETHEUS_TOKEN}"
+        Authorization: "Bearer ${STAGE_PROMETHEUS_TOKEN}"
     '/prometheus/prod':
       target: https://prometheus.crcp01ue1.devshift.net
       secure: true
       headers:
-        Authorization: "Bearer ${PROMETHEUS_TOKEN}"
+        Authorization: "Bearer ${PROD_PROMETHEUS_TOKEN}"
 ```
 
 Also in app-config.yaml add redhatinsights.backstage-plugin-metrics-and-monitoring and the card component configs into the dynamic plugins section.
