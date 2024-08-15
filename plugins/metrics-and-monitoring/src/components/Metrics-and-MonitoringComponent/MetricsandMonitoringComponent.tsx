@@ -35,7 +35,7 @@ export function MetricsandMonitoringComponent() {
       'metrics-and-monitoring/grafana-dashboard-url'
     ];
   const catchpointUrl =
-    entity.metadata.annotations?.['metrics-and-monitoring/catchpoint-test-id'];
+    parseInt(entity.metadata.annotations?.['metrics-and-monitoring/catchpoint-test-id'] || '', 10);
   const [currentEnvironment, setCurrentEnvironment] = useState<string>('');
   const [currentEnvironmentUrl, setCurrentEnvironmentUrl] =
     useState<string>('');
@@ -117,7 +117,7 @@ export function MetricsandMonitoringComponent() {
   };
 
   const CatchpointItem = () => {
-    if (!catchpointUrl) {
+    if (isNaN(catchpointUrl)) {
       return;
     }
     return (
