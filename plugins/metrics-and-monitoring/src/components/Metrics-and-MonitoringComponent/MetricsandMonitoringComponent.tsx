@@ -155,7 +155,7 @@ export function MetricsandMonitoringComponent() {
               <Typography variant="body1">
                 <Link
                   target="_blank"
-                  to={`${currentEnvironmentUrl}/alerts?search=${entity.metadata.title}`}
+                  to={`${currentEnvironmentUrl}/graph?g0.expr=ALERTS%7Balertstate%3D%22firing%22%2C%20app_team%3D%22${entity.metadata.title}%22%7D&g0.tab=1&g0.display_mode=lines&g0.show_exemplars=0&g0.range_input=1h`}
                 >
                   {' '}
                   Prometheus Alerts{' '}
