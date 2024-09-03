@@ -7,23 +7,20 @@ import {
   Select,
   Typography,
 } from '@material-ui/core';
-import {
-  InfoCard,
-  Page,
-  Content,
-  Link,
-} from '@backstage/core-components';
+import { InfoCard, Page, Content, Link } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
 
 const clusterMap = {
   crcs02ue1: {
     url: `https://prometheus.crcs02ue1.devshift.net`,
     name: 'stage',
+    kibana: `https://kibana.apps.crcs02ue1.urby.p1.openshiftapps.com/app/kibana#/discover`,
     datasource: 'PDD8BE47D10408F45',
   },
   crcp01ue1: {
     url: `https://prometheus.crcp01ue1.devshift.net`,
     name: 'prod',
+    kibana: `https://kibana.apps.crcp01ue1.o9m8.p1.openshiftapps.com/app/kibana#/discover`,
     datasource: 'PC1EAC84DCBBF0697',
   },
 };
@@ -34,10 +31,14 @@ export function MetricsandMonitoringComponent() {
     entity.metadata.annotations?.[
       'metrics-and-monitoring/grafana-dashboard-url'
     ];
-  const catchpointUrl =
-    parseInt(entity.metadata.annotations?.['metrics-and-monitoring/catchpoint-test-id'] || '', 10);
+  const catchpointUrl = 
+    entity.metadata.annotations?.[
+      'metrics-and-monitoring/catchpoint-test-id'
+    ];
   const [currentEnvironment, setCurrentEnvironment] = useState<string>('');
   const [currentEnvironmentUrl, setCurrentEnvironmentUrl] =
+    useState<string>('');
+  const [currentEnvironmentKibana, setCurrentEnvironmentKibana] =
     useState<string>('');
   const [currentEnvironmentDatasource, setCurrentEnvironmentDatasource] =
     useState<string>('');
@@ -45,6 +46,13 @@ export function MetricsandMonitoringComponent() {
   const getClusterUrl = (cluster: string) => {
     if (clusterMap[cluster as keyof typeof clusterMap]) {
       return clusterMap[cluster as keyof typeof clusterMap].url;
+    }
+    return cluster;
+  };
+
+  const getClusterKibana = (cluster: string) => {
+    if (clusterMap[cluster as keyof typeof clusterMap]) {
+      return clusterMap[cluster as keyof typeof clusterMap].kibana;
     }
     return cluster;
   };
@@ -72,12 +80,21 @@ export function MetricsandMonitoringComponent() {
           id="cluster-select"
           value={currentEnvironment}
           onChange={e => {
-            setCurrentEnvironmentDatasource(e.target.value === 'stage' ? getClusterDatasource('crcs02ue1') : getClusterDatasource('crcp01ue1'),);
+            setCurrentEnvironmentDatasource(
+              e.target.value === 'stage'
+                ? getClusterDatasource('crcs02ue1')
+                : getClusterDatasource('crcp01ue1'),
+            );
             setCurrentEnvironment(e.target.value as string);
             setCurrentEnvironmentUrl(
               e.target.value === 'stage'
                 ? getClusterUrl('crcs02ue1')
                 : getClusterUrl('crcp01ue1'),
+            );
+            setCurrentEnvironmentKibana(
+              e.target.value === 'stage'
+                ? getClusterKibana('crcs02ue1')
+                : getClusterKibana('crcp01ue1'),
             );
           }}
         >
@@ -92,9 +109,11 @@ export function MetricsandMonitoringComponent() {
     const currentClusterName = getClusterName('crcs02ue1');
     const currentClusterUrl = getClusterUrl('crcs02ue1');
     const currentClusterDatasource = getClusterDatasource('crcs02ue1');
+    const currentClusterKibana = getClusterKibana('crcs02ue1');
     setCurrentEnvironment(currentClusterName);
     setCurrentEnvironmentUrl(currentClusterUrl);
     setCurrentEnvironmentDatasource(currentClusterDatasource);
+    setCurrentEnvironmentKibana(currentClusterKibana);
   }, []);
 
   const GrafanaGridItem = () => {
@@ -117,7 +136,7 @@ export function MetricsandMonitoringComponent() {
   };
 
   const CatchpointItem = () => {
-    if (isNaN(catchpointUrl)) {
+    if (!catchpointUrl) {
       return;
     }
     return (
@@ -146,11 +165,11 @@ export function MetricsandMonitoringComponent() {
             <ClusterSelect />
           </Grid>
         </Grid>
-        <Grid container spacing={3} direction="column">
-          <Grid item>
+        <Grid container spacing={3} direction="row">
+          <Grid item xs={3}>
             <GrafanaGridItem />
           </Grid>
-          <Grid item>
+          <Grid item xs={3}>
             <InfoCard title="Prometheus">
               <Typography variant="body1">
                 <Link
@@ -163,7 +182,20 @@ export function MetricsandMonitoringComponent() {
               </Typography>
             </InfoCard>
           </Grid>
-          <Grid item>
+          <Grid item xs={3}>
+            <InfoCard title="Logging">
+              <Typography variant="body1">
+                <Link
+                  target="_blank"
+                  to={`${currentEnvironmentKibana}`}
+                >
+                  {' '}
+                  Kibana logging{' '}
+                </Link>
+              </Typography>
+            </InfoCard>
+          </Grid>
+          <Grid item xs={3}>
             <CatchpointItem />
           </Grid>
         </Grid>
