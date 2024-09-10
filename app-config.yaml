@@ -50,11 +50,13 @@ proxy:
       secure: true
       headers:
         Authorization: "Bearer ${STAGE_PROMETHEUS_TOKEN}"
+      credentials: dangerously-allow-unauthenticated
     '/prometheus/prod':
       target: https://prometheus.crcp01ue1.devshift.net
       secure: true
       headers:
         Authorization: "Bearer ${PROD_PROMETHEUS_TOKEN}"
+      credentials: dangerously-allow-unauthenticated
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
