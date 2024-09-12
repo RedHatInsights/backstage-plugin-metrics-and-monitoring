@@ -1,1 +1,1 @@
-export { MetricsandMonitoringComponent } from "./MetricsandMonitoringComponent";
+export { MetricsAndMonitoringComponent } from "./MetricsandMonitoringComponent";

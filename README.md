@@ -8,9 +8,13 @@ You can find the plugin code in plugins/metrics-and-monitoring
 
 - Grafana: directs you to your dashboard with the selected env prometheus datasource
 
-- Prometheus: links to the currently selected environments prometheus' alert page
+- Prometheus: links to the currently selected environment's prometheus alert page
+
+- Kibana: points to the currently selected environment's kibana instance
 
 - Catchpoint: Catchpoint tests are used to monitor app availability and directly changes satuspage. The test itself should be set up by the app team
+
+- Active alerts table: queries the currently selected environment's prometheus and displays currently firing alerts
 
 ## Setup 
 
@@ -19,12 +23,12 @@ In app-config.yaml first add the proxy:
 proxy:
   endpoints:
     '/prometheus/stage':
-      target: https://prometheus.crcs02ue1.devshift.net
+      target: stage prometheus instance api
       secure: true
       headers:
         Authorization: "Bearer ${STAGE_PROMETHEUS_TOKEN}"
     '/prometheus/prod':
-      target: https://prometheus.crcp01ue1.devshift.net
+      target: prod prometheus instance api
       secure: true
       headers:
         Authorization: "Bearer ${PROD_PROMETHEUS_TOKEN}"
