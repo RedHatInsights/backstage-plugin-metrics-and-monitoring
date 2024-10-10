@@ -54,7 +54,7 @@ export function MetricsAndMonitoringComponent() {
 
   const fetchAlerts = (proxy) => {
     fetch(
-      `${backendUrl}/api/proxey/${proxy}/query?query=ALERTS%7Balertstate%3D%22firing%22%2C%20app_team%3D%22automation-analytics%22%7D`
+      `${backendUrl}/api/proxy/${proxy}/query?query=ALERTS%7Balertstate%3D%22firing%22%2C%20app_team%3D%22${entity.metadata.title}%22%7D`
     )
       .then((response) => response.json())
       .then((response) => {
