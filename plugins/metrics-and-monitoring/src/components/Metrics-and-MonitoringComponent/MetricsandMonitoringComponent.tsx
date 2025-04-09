@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import { InfoCard, Page, Content, Link } from '@backstage/core-components';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { useApi, configApiRef } from '@backstage/core-plugin-api';
+import { useApi, fetchApiRef, configApiRef } from '@backstage/core-plugin-api';
 
 // Cluster configuration
 const clusterMap = {
@@ -49,14 +49,21 @@ export function MetricsAndMonitoringComponent() {
   const [page, setPage] = useState(0);
   const rowsPerPage = 25;
 
+  const fetchApi = useApi(fetchApiRef);
   const config = useApi(configApiRef);
   const backendUrl = config.getString('backend.baseUrl');
 
-  const fetchAlerts = (proxy) => {
-    fetch(
-      `${backendUrl}/api/proxy/${proxy}/query?query=ALERTS%7Balertstate%3D%22firing%22%2C%20app_team%3D%22${entity.metadata.title}%22%7D`
-    )
-      .then((response) => response.json())
+  const promBaseUrl = (proxy) => {
+    return `${backendUrl}/api/proxy/${proxy}/query?query=ALERTS%7Balertstate%3D%22firing%22%2C%20app_team%3D%22${entity.metadata.title}%22%7D`;
+  }
+
+  const fetchAlerts = async () => {
+    await fetchApi.fetch(promBaseUrl, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((response) => response.json())
       .then((response) => {
         setPrometheusData(response.data?.result || []);
       })
