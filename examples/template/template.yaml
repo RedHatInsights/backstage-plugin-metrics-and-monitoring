@@ -52,9 +52,21 @@ spec:
       name: Publish
       action: publish:github
       input:
-        allowedHosts: ['github.com']
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: 'main'
+
+    # Let's notify the user that the template has completed using the Notification action
+    - id: notify
+      name: Notify
+      action: notification:send
+      input:
+        recipients: entity
+        entityRefs:
+          - user:default/guest
+        title: 'Template executed'
+        info: 'Your template has been executed'
+        severity: 'normal'
 
     # The final step is to register our new component in the catalog.
     - id: register
