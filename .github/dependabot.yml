@@ -1,0 +1,33 @@
+version: 2
+updates:
+  # Enable version updates for npm dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    groups:
+      # Group Backstage packages together
+      backstage:
+        patterns:
+          - "@backstage/*"
+      # Group testing packages together
+      testing:
+        patterns:
+          - "@jest/*"
+          - "@playwright/*"
+          - "@types/jest"
+          - "jest"
+      # Group TypeScript packages together
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
