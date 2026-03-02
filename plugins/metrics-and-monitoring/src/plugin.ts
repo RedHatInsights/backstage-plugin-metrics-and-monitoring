@@ -11,7 +11,10 @@ export const MetricsandMonitoringContent = metricsandmonitoringPlugin.provide(
   createComponentExtension({
     name: 'MetricsandMonitoringContent',
     component: {
-      lazy: () => import('./components/Metrics-and-MonitoringComponent').then(m => m.MetricsAndMonitoringComponent),
+      lazy: () =>
+        import('./components/Metrics-and-MonitoringComponent').then(
+          m => m.MetricsAndMonitoringComponent,
+        ),
     },
   }),
 );

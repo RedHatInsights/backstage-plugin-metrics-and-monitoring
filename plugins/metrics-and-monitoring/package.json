@@ -44,6 +44,7 @@
     "@backstage/cli": "^0.35.3",
     "@backstage/core-app-api": "^1.19.4",
     "@backstage/dev-utils": "^1.1.19",
+    "@backstage/plugin-catalog-react": "^2.0.0",
     "@backstage/test-utils": "^1.7.14",
     "@janus-idp/cli": "^1.13.0",
     "@testing-library/jest-dom": "^6.0.0",

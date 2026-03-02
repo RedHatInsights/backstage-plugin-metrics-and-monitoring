@@ -1,1 +1,4 @@
-export { metricsandmonitoringPlugin, MetricsandMonitoringContent } from './plugin';
+export {
+  metricsandmonitoringPlugin,
+  MetricsandMonitoringContent,
+} from './plugin';
