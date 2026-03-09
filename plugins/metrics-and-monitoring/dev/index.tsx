@@ -1,6 +1,8 @@
-import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
-import { metricsandmonitoringPlugin, MetricsandMonitoringContent } from '../src/plugin';
+import {
+  metricsandmonitoringPlugin,
+  MetricsandMonitoringContent,
+} from '../src/plugin';
 
 createDevApp()
   .registerPlugin(metricsandmonitoringPlugin)

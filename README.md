@@ -1,42 +1,58 @@
-# Metrics and Monitoring plugin
+# [Backstage](https://backstage.io)
 
-This is a development mono-repo for the Metrics and Monitoring plugin. This mono-repo was created using @backstage/create-app to provide a backend and frontend for the plugin to integrate with.
+This is a Backstage mono-repo for developing the **Metrics and Monitoring** plugin.
 
-You can find the plugin code in plugins/metrics-and-monitoring
+## Metrics and Monitoring plugin
 
-## Cards
+The plugin lives in `plugins/metrics-and-monitoring` and is sourced from [RedHatInsights/backstage-plugin-metrics-and-monitoring](https://github.com/RedHatInsights/backstage-plugin-metrics-and-monitoring). It provides:
 
-- Grafana: directs you to your dashboard with the selected env prometheus datasource
+- **Grafana**: link to dashboard with the selected env Prometheus datasource
+- **Prometheus**: link to the selected environment's Prometheus alert page
+- **Kibana**: link to the selected environment's Kibana instance
+- **Catchpoint**: tests for app availability (annotation-driven)
+- **Active alerts table**: Prometheus firing alerts for the selected environment
 
-- Prometheus: links to the currently selected environment's prometheus alert page
+### Start the app
 
-- Kibana: points to the currently selected environment's kibana instance
+```sh
+yarn install
+yarn start
+```
 
-- Catchpoint: Catchpoint tests are used to monitor app availability and directly changes satuspage. The test itself should be set up by the app team
+### Build the plugin for dynamic deployment (janus-cli)
 
-- Active alerts table: queries the currently selected environment's prometheus and displays currently firing alerts
+To build the plugin and export it as a dynamic plugin (packaged tarball):
 
-## Setup 
+```sh
+yarn build:dynamic-plugin
+# or run the build script (also prints integrity checksum)
+./build
+```
 
-In app-config.yaml first add the proxy:
+Scripts:
+
+- `yarn build:plugin` – build the plugin with Backstage CLI
+- `yarn export-dynamic` – run janus-cli `export-dynamic-plugin` (packages for dynamic loading)
+- `yarn build:dynamic-plugin` – build then export-dynamic
+
+### Dynamic plugin configuration
+
+For a Red Hat Developer Hub / dynamic plugin deployment, configure `app-config.yaml` with the proxy and dynamic plugin mount:
+
 ```yaml
 proxy:
   endpoints:
     '/prometheus/stage':
-      target: stage prometheus instance api
+      target: <stage-prometheus-api>
       secure: true
       headers:
         Authorization: "Bearer ${STAGE_PROMETHEUS_TOKEN}"
     '/prometheus/prod':
-      target: prod prometheus instance api
+      target: <prod-prometheus-api>
       secure: true
       headers:
         Authorization: "Bearer ${PROD_PROMETHEUS_TOKEN}"
-```
 
-Also in app-config.yaml add redhatinsights.backstage-plugin-metrics-and-monitoring and the card component configs into the dynamic plugins section.
-
-```yaml
 dynamicPlugins:
   frontend:
     redhatinsights.backstage-plugin-metrics-and-monitoring:
@@ -50,15 +66,3 @@ dynamicPlugins:
                 md: "span 6"
                 xs: "span 12"
 ```
-
-## Development
-
-To start the app, run:
-```sh
-yarn install
-yarn start
-```
-Before you do, you'll likely want to have catalog entries to see the plugin working on. Check out AppStage for that.
-Build the Dynamic Plugin
-
-Run ./build - the packed tarball for the release along with its integrity sha will be generated.

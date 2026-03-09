@@ -7,6 +7,23 @@ metadata:
 spec:
   owner: guests
 ---
+# Test component that shows all Metrics and Monitoring plugin sections:
+# Grafana (annotation), Prometheus, Kibana, Catchpoint (annotation), Firing Alerts table
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: metrics-monitoring-demo
+  title: metrics-monitoring-demo
+  description: Demo component to exercise every part of the Metrics and Monitoring plugin
+  annotations:
+    metrics-and-monitoring/grafana-dashboard-url: "https://grafana.example.com/d/my-dashboard?orgId=1"
+    metrics-and-monitoring/catchpoint-test-id: "12345"
+spec:
+  type: website
+  lifecycle: experimental
+  owner: guests
+  system: examples
+---
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
 apiVersion: backstage.io/v1alpha1
 kind: Component
