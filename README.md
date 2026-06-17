@@ -71,6 +71,12 @@ dynamicPlugins:
       mountPoints:
         - mountPoint: entity.page.monitoring/cards
           importName: MetricsandMonitoringContent
+          config:
+            layout:
+              gridColumnEnd:
+                lg: "span 12"
+                md: "span 6"
+                xs: "span 12"
 ```
 
 ## Testing
